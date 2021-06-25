@@ -792,6 +792,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snakeSegmentPrefab: {fileID: 8941995985592382171, guid: d6f7ab94436403742b9dab376695d5b5, type: 3}
+  swipeRange: 50
+  tapRange: 10
 --- !u!1 &1462611956
 GameObject:
   m_ObjectHideFlags: 0

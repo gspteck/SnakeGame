@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SnakeController : MonoBehaviour {
     private Vector2 direction = Vector2.right;
@@ -8,22 +10,35 @@ public class SnakeController : MonoBehaviour {
     public Transform snakeSegmentPrefab;
 
     private int points;
+    private int credits;
+    private int addedCredits;
+
+    private Vector2 startTouchPosition;
+    private Vector2 currentTouchPosition;
+    private Vector2 endTouchPosition;
+    private bool stopTouch = false;
+    public float swipeRange;
+    public float tapRange;
 
     void Start() {
         snakeSegments = new List<Transform>();
         snakeSegments.Add(this.transform);
+
+        credits = PlayerPrefs.GetInt("credits");
     }
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.W) && direction != Vector2.down) {
-            direction = Vector2.up;
+            GoUp();
         } else if (Input.GetKeyDown(KeyCode.A) && direction != Vector2.right) {
-            direction = Vector2.left;
+            GoLeft();
         } else if (Input.GetKeyDown(KeyCode.S) && direction != Vector2.up) {
-            direction = Vector2.down;
+            GoDown();
         } else if (Input.GetKeyDown(KeyCode.D) && direction != Vector2.left) {
-            direction = Vector2.right;
+            GoRight();
         }
+
+        Swipe();        
     }
 
     private void FixedUpdate() {
@@ -37,6 +52,11 @@ public class SnakeController : MonoBehaviour {
         );
     }
 
+    private void GoUp() {if (direction != Vector2.down) {direction = Vector2.up;}}
+    private void GoDown() {if (direction != Vector2.up) {direction = Vector2.down;}}
+    private void GoLeft() {if (direction != Vector2.right) {direction = Vector2.left;}}
+    private void GoRight() {if (direction != Vector2.left) {direction = Vector2.right;}}
+
     private void Grow() {
         Transform segment = Instantiate(this.snakeSegmentPrefab);
         segment.position = snakeSegments[snakeSegments.Count - 1].position;
@@ -47,14 +67,49 @@ public class SnakeController : MonoBehaviour {
         if (other.tag == "Food") {
             Grow();
             points += 1;
-            print(points);
         } else if (other.tag == "Obstacle" || other.tag == "Snake") {
             GameOver();
         }
     }
 
     private void GameOver() {
-        //save points in shared preferences
-        //open game over screen
+        credits += points * 2;
+        addedCredits = points * 2;
+        PlayerPrefs.SetInt("credits", credits);
+        PlayerPrefs.SetInt("added_credits", addedCredits);
+        SceneManager.LoadScene("GameOverScreen", LoadSceneMode.Single);
+    }
+
+    private void Swipe() {
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) {
+            startTouchPosition = Input.GetTouch(0).position;
+        }
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) {
+            currentTouchPosition = Input.GetTouch(0).position;
+            Vector2 distance = currentTouchPosition - startTouchPosition;
+            if (!stopTouch) {
+                if (distance.x < -swipeRange) {
+                    GoLeft();
+                    stopTouch = true;
+                } else if (distance.x > swipeRange) {
+                    GoRight();
+                    stopTouch = true;
+                } else if (distance.y > swipeRange) {
+                    GoUp();
+                    stopTouch = true;
+                } else if (distance.y < -swipeRange) {
+                    GoDown();
+                    stopTouch = true;
+                }
+            }
+        }
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) {
+            stopTouch = false;
+            endTouchPosition = Input.GetTouch(0).position;
+            Vector2 Distance = endTouchPosition - startTouchPosition;
+            if (Mathf.Abs(Distance.x) < tapRange && Mathf.Abs(Distance.y) < tapRange) {
+                //outputText.text = "Tap";
+            }
+        }
     }
 }
