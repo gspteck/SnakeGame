@@ -4,7 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MainMenuScreenController : MonoBehaviour {
+using AppodealAds.Unity.Api;
+using AppodealAds.Unity.Common;
+
+public class MainMenuScreenController : MonoBehaviour, IRewardedVideoAdListener {
     public Button playButton;
     public Button adButton;
     public Text livesText;
@@ -16,6 +19,12 @@ public class MainMenuScreenController : MonoBehaviour {
     private int firstTime;
     
     void Start() {
+        Appodeal.initialize(
+            "23158b8d7f17fc82d15209734117c808a4aec946c860f4ac",
+            Appodeal.INTERSTITIAL | Appodeal.REWARDED_VIDEO
+        );
+        Appodeal.setRewardedVideoCallbacks(this);
+
         playButton.onClick.AddListener(PlayGame);
         adButton.onClick.AddListener(ShowRewardedAD);
         credits = PlayerPrefs.GetInt("credits");
@@ -46,6 +55,23 @@ public class MainMenuScreenController : MonoBehaviour {
     }
 
     private void ShowRewardedAD() {
-        PlayerPrefs.DeleteAll();
+        if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)) {
+            Appodeal.show(Appodeal.REWARDED_VIDEO);
+        }
     }
+
+    #region Rewarded Video callback handlers
+    public void onRewardedVideoLoaded(bool isPrecache) {}
+    public void onRewardedVideoFailedToLoad() {}
+    public void onRewardedVideoShowFailed() {}
+    public void onRewardedVideoShown() {}
+    public void onRewardedVideoClicked() {}
+    public void onRewardedVideoClosed(bool finished) {}
+    public void onRewardedVideoFinished(double amount, string name) {
+        credits += 10;
+        PlayerPrefs.SetInt("credits", credits);
+        creditText.text = credits.ToString();
+    }
+    public void onRewardedVideoExpired() {}
+    #endregion
 }

@@ -1,5 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
+    Assembly-CSharp-Editor.dll:
+    - AppodealAds.Unity.Editor.InternalResources.AppodealSettings
     Assembly-CSharp.dll:
     - FoodController
     - GameOverScreenController
@@ -54,21 +56,21 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 2266}
+      Script: {instanceID: 1536}
     - Class: 114
-      Script: {instanceID: 2362}
+      Script: {instanceID: 1634}
     - Class: 114
-      Script: {instanceID: 2950}
+      Script: {instanceID: 2228}
     - Class: 114
-      Script: {instanceID: 3362}
+      Script: {instanceID: 2642}
     - Class: 114
-      Script: {instanceID: 3520}
+      Script: {instanceID: 2802}
     - Class: 114
-      Script: {instanceID: 3732}
+      Script: {instanceID: 3018}
     - Class: 114
-      Script: {instanceID: 3974}
+      Script: {instanceID: 3260}
     - Class: 114
-      Script: {instanceID: 4088}
+      Script: {instanceID: 3374}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -103,21 +105,21 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 2266}
+      Script: {instanceID: 1536}
     - Class: 114
-      Script: {instanceID: 2672}
+      Script: {instanceID: 1946}
     - Class: 114
-      Script: {instanceID: 2950}
+      Script: {instanceID: 2228}
     - Class: 114
-      Script: {instanceID: 3362}
+      Script: {instanceID: 2642}
     - Class: 114
-      Script: {instanceID: 3520}
+      Script: {instanceID: 2802}
     - Class: 114
-      Script: {instanceID: 3732}
+      Script: {instanceID: 3018}
     - Class: 114
-      Script: {instanceID: 3974}
+      Script: {instanceID: 3260}
     - Class: 114
-      Script: {instanceID: 4088}
+      Script: {instanceID: 3374}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -152,21 +154,21 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 2266}
+      Script: {instanceID: 1536}
     - Class: 114
-      Script: {instanceID: 2950}
+      Script: {instanceID: 2228}
     - Class: 114
-      Script: {instanceID: 3362}
+      Script: {instanceID: 2642}
     - Class: 114
-      Script: {instanceID: 3520}
+      Script: {instanceID: 2802}
     - Class: 114
-      Script: {instanceID: 3732}
+      Script: {instanceID: 3018}
     - Class: 114
-      Script: {instanceID: 3974}
+      Script: {instanceID: 3260}
     - Class: 114
-      Script: {instanceID: 4050}
+      Script: {instanceID: 3336}
     - Class: 114
-      Script: {instanceID: 4088}
+      Script: {instanceID: 3374}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -205,13 +207,13 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 3520}
+      Script: {instanceID: 2802}
     - Class: 114
-      Script: {instanceID: 3630}
+      Script: {instanceID: 2916}
     - Class: 114
-      Script: {instanceID: 3974}
+      Script: {instanceID: 3260}
     - Class: 114
-      Script: {instanceID: 5766}
+      Script: {instanceID: 5060}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -775,10 +777,16 @@ ScriptsOnlyBuild:
     assemblyName: Unity.2D.IK.Runtime.dll
     namespaceName: UnityEngine.U2D.IK
     className: FabrikSolver2D
+  - hash:
+      serializedVersion: 2
+      Hash: eceaf4b7df1735daa08a78c6a0c06701
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ConsentManager.ConsentManagerDemo.Scripts
+    className: AppodealDemo
   platform: 13
   scenePathNames:
   - Assets/Scenes/MainMenuScreen.unity
   - Assets/Scenes/Snake.unity
   - Assets/Scenes/GameOverScreen.unity
   - Assets/Scenes/ShopScreen.unity
-  playerPath: C:/Users/Utente/Desktop/test.apk
+  playerPath: C:/Users/Utente/Desktop/snakegame.aab

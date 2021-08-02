@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+using AppodealAds.Unity.Api;
+using AppodealAds.Unity.Common;
+
 public class ShopScreenController : MonoBehaviour {
     public Button PurchaseButtonOneLife;
     public Button PurchaseButtonFiftyLives;
@@ -18,7 +21,7 @@ public class ShopScreenController : MonoBehaviour {
         PurchaseButtonOneLife.onClick.AddListener(PurchaseOneLife);
         PurchaseButtonFiftyLives.onClick.AddListener(PurchaseFiftyLives);
         PurchaseButtonOneKLives.onClick.AddListener(PurchaseOneKLives);
-        adButton.onClick.AddListener(ShowRewarderAD);
+        adButton.onClick.AddListener(ShowRewarderAd);
         mainMenuButton.onClick.AddListener(GoToMainMenu);
         lives = PlayerPrefs.GetInt("lives");
         credits = PlayerPrefs.GetInt("credits");
@@ -35,9 +38,8 @@ public class ShopScreenController : MonoBehaviour {
             PlayerPrefs.SetInt("lives", lives);
             credits -= 50;
             PlayerPrefs.SetInt("credits", credits);
-            GoToMainMenu();
         } else {
-            ShowRewarderAD();
+            ShowRewarderAd();
         }
     }
 
@@ -48,9 +50,8 @@ public class ShopScreenController : MonoBehaviour {
             PlayerPrefs.SetInt("lives", lives);
             credits -= 2000;
             PlayerPrefs.SetInt("credits", credits);
-            GoToMainMenu();
         } else {
-            //show interstitial
+            ShowInterstitialAd();
         }
     }
 
@@ -61,14 +62,21 @@ public class ShopScreenController : MonoBehaviour {
             PlayerPrefs.SetInt("lives", lives);
             credits -= 35000;
             PlayerPrefs.SetInt("credits", credits);
-            GoToMainMenu();
         } else {
-            //show interstitial
+            ShowInterstitialAd();
         }
     }
 
-    private void ShowRewarderAD() {
-        
+    private void ShowRewarderAd() {
+        if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)) {
+            Appodeal.show(Appodeal.REWARDED_VIDEO);
+        }
+    }
+
+    private void ShowInterstitialAd() {
+        if (Appodeal.isLoaded(Appodeal.INTERSTITIAL)) {
+            Appodeal.show(Appodeal.INTERSTITIAL);
+        }
     }
 
     private void GoToMainMenu() {
