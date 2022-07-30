@@ -2,6 +2,8 @@
 
 Replica of the OG Snake game we all loved and adored made using the Unity game engine.
 
+Download here: https://play.google.com/store/apps/details?id=com.gspteck.snakegame
+
 ## Other
 
 Support us by buying awsome merch on our [Teespring page](https://teespring.com/it/stores/gspteck-2).
