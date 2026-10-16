@@ -24,3 +24,6 @@ Temp/
 .DS_Store
 Thumbs.db
 
+# Burst debug symbols from a local Android build
+SnakeGame_BurstDebugInformation_DoNotShip/
+

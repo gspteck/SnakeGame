@@ -1,13 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-using AppodealAds.Unity.Api;
-using AppodealAds.Unity.Common;
-
-public class ShopScreenController : MonoBehaviour {
+public class ShopScreenController : MonoBehaviour
+{
     public Button PurchaseButtonOneLife;
     public Button PurchaseButtonFiftyLives;
     public Button PurchaseButtonOneKLives;
@@ -17,69 +13,86 @@ public class ShopScreenController : MonoBehaviour {
     private int lives;
     private int credits;
 
-    void Start() {
+    void OnEnable()
+    {
+        AdsController.CreditsChanged += RefreshCredits;
+    }
+
+    void OnDisable()
+    {
+        AdsController.CreditsChanged -= RefreshCredits;
+    }
+
+    void Start()
+    {
+        AdsController.Ensure();
         PurchaseButtonOneLife.onClick.AddListener(PurchaseOneLife);
         PurchaseButtonFiftyLives.onClick.AddListener(PurchaseFiftyLives);
         PurchaseButtonOneKLives.onClick.AddListener(PurchaseOneKLives);
-        adButton.onClick.AddListener(ShowRewarderAd);
+        adButton.onClick.AddListener(AdsController.ShowRewarded);
         mainMenuButton.onClick.AddListener(GoToMainMenu);
         lives = PlayerPrefs.GetInt("lives");
-        credits = PlayerPrefs.GetInt("credits");
+        RefreshCredits();
     }
 
-    void Update() {
-        
-    }
-
-    private void PurchaseOneLife() {
-        if (credits >= 50) {
+    private void PurchaseOneLife()
+    {
+        if (credits >= 50)
+        {
             lives = PlayerPrefs.GetInt("lives");
             lives += 1;
             PlayerPrefs.SetInt("lives", lives);
             credits -= 50;
             PlayerPrefs.SetInt("credits", credits);
-        } else {
-            ShowRewarderAd();
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            AdsController.ShowRewarded();
         }
     }
 
-    private void PurchaseFiftyLives() {
-        if (credits >= 2000) {
+    private void PurchaseFiftyLives()
+    {
+        if (credits >= 2000)
+        {
             lives = PlayerPrefs.GetInt("lives");
             lives += 50;
             PlayerPrefs.SetInt("lives", lives);
             credits -= 2000;
             PlayerPrefs.SetInt("credits", credits);
-        } else {
-            ShowInterstitialAd();
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            AdsController.ShowInterstitialIfReady();
         }
     }
 
-    private void PurchaseOneKLives() {
-        if (credits >= 35000) {
+    private void PurchaseOneKLives()
+    {
+        if (credits >= 35000)
+        {
             lives = PlayerPrefs.GetInt("lives");
             lives += 1000;
             PlayerPrefs.SetInt("lives", lives);
             credits -= 35000;
             PlayerPrefs.SetInt("credits", credits);
-        } else {
-            ShowInterstitialAd();
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            AdsController.ShowInterstitialIfReady();
         }
     }
 
-    private void ShowRewarderAd() {
-        if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)) {
-            Appodeal.show(Appodeal.REWARDED_VIDEO);
-        }
+    private void RefreshCredits()
+    {
+        credits = PlayerPrefs.GetInt("credits");
     }
 
-    private void ShowInterstitialAd() {
-        if (Appodeal.isLoaded(Appodeal.INTERSTITIAL)) {
-            Appodeal.show(Appodeal.INTERSTITIAL);
-        }
-    }
-
-    private void GoToMainMenu() {
+    private void GoToMainMenu()
+    {
         SceneManager.LoadScene("MainMenuScreen", LoadSceneMode.Single);
     }
 }
